@@ -1,0 +1,40 @@
+---
+# tasks file for httpd
+- name: Get package information for httpd
+  ansible.builtin.package_facts:
+
+- name: Get service information
+  ansible.builtin.service_facts:
+  
+- name: Install httpd
+  ansible.builtin.package:
+    name: "{{ apache_package[ansible_os_family] }}"
+    state: present
+
+- name: Start and enable httpd svc
+  ansible.builtin.service:
+    name: "{{ apache_package[ansible_os_family] }}"
+    state: started
+    enabled: true
+
+- name: Allow all http traffic through firewall
+  ansible.posix.firewalld:
+    service: http
+    state: enabled
+    permanent: true
+    immediate: true
+    offline: true
+  when: ansible_facts.services["firewalld.service"] is defined
+
+- name: Get apache version
+  ansible.builtin.debug:
+    msg: "{{ ansible_facts.packages[apache_package[ansible_os_family]] }} version of {{ apache_package[ansible_os_family] }} is installed!"
+  when: apache_package[ansible_os_family] in ansible_facts.packages
+
+- name: Create index.html with "Hello World"
+  ansible.builtin.template:
+    src: index.html.j2
+    dest: "{{ vhosts_root[ansible_os_family] }}/index.html"
+    mode: "0640"
+    owner: apache
+    group: apache

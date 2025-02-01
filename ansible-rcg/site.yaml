@@ -1,0 +1,5 @@
+- hosts: phmnl01
+  become: true
+  become_method: sudo
+  roles:
+    - httpd

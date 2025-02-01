@@ -1,0 +1,4 @@
+<h1> Hello World </h1>
+<p>Time generated: {{ now() }}</p>
+<p>OS: {{ ansible_distribution }}</p>
+<p>httpd_version: {{ ansible_facts.packages[apache_package[ansible_os_family]][0]['version'] }}</p>

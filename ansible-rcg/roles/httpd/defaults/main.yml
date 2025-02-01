@@ -1,0 +1,10 @@
+---
+# defaults file for httpd
+vhosts_root:
+  RedHat: /var/www/html
+  Debian: /var/www/html  
+  Suse: /srv/www/htdocs
+apache_package:
+  RedHat: httpd
+  Debian: apache2
+  Suse: apache2

@@ -1,0 +1,6 @@
+all:
+  vars:
+    ansible_user: ansible
+phmnl01:
+  hosts:
+    192.168.64.2:
